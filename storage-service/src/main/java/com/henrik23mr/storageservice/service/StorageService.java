@@ -17,18 +17,25 @@ public class StorageService {
     private StorageRepository repository;
 
     public String uploadImage(MultipartFile file) throws IOException {
+        String originalFilename = file.getOriginalFilename();
 
-        ImageData imageData = repository.save(ImageData.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .imagesData(ImageUtils.compressImage(file.getBytes())).build());
+        if (originalFilename != null && (originalFilename.endsWith(".png") ||
+                originalFilename.endsWith(".jpg") || originalFilename.endsWith(".jpeg"))) {
+            ImageData imageData = repository.save(ImageData.builder()
+                    .name(originalFilename)
+                    .type(file.getContentType())
+                    .imagesData(ImageUtils.compressImage(file.getBytes())).build());
 
-        if (imageData != null){
-            return "Image uploaded successfully with " + file.getName() + "!";
+            if (imageData != null) {
+                return "Image uploaded successfully with " + originalFilename + "!";
+            } else {
+                return "Some error occurred";
+            }
+        } else {
+            return "Only PNG, JPG and JPEG files are allowed";
         }
-        return "Some error occoured";
-
     }
+
 
 
 }

@@ -28,11 +28,6 @@ public class StorageServiceApplication {
 		return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
 	}
 
-	@GetMapping("/my")
-	public ResponseEntity<String> testWebMapping(){
-		return ResponseEntity.ok("Hello Web!");
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(StorageServiceApplication.class, args);
 	}
